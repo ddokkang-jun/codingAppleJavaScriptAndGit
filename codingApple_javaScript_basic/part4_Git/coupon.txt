@@ -1,5 +1,43 @@
-브랜치 직접 만들어보래서 만든거임
+branch 직접 만들어보래서 만든거임
 
 git branch coupon 한 다음
 
 coupon.txt 파일 만들었음.
+
+
+- branch 만들기
+
+git branch 작명 
+(ex: git branch coupon)
+
+
+
+- master branch 에서 다른 branch로 이동하기
+
+git switch coupon 
+하게 되면 coupon branch로 이동됨.
+
+git switch master 
+하게 되면 원래 master branch로 이동됨.
+
+
+- branch 는 왜 쓰나요오~?
+
+하나의 프로젝트를 10명이서 개발을 한다고 하면 10명의 코드가 다 다르다. 
+
+그래서 branch를 만들고 기능개발을 10명이서 각자 따로 하다가  
+
+개발이 문제가 없을 경우에 master branch (main project) 에 합칠려고 쓰는거다.
+
+
+- 어떻게 합치나요?
+
+git merge 브랜치이름
+(ex: git merge coupon) 
+
+- 그런데 엔터치기 전에 잠깐~!
+
+A 라는 브랜치에서 변경한 사항과 master branch 에서 변경한 사항이 같은데 merge 를 하게되면 
+git 은 conflict를 발생한다.
+
+이 경우 직접 다시 변경해주고 commit 하면 됨.
