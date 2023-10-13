@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Bootstrap demo</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+			integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<link rel="stylesheet" href="list.css" />
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<!-- 첫 번째 카드 -->
+					<div class="card">
+						<img src="https://via.placeholder.com/600" />
+						<div class="card-body">
+							<h5>Card title</h5>
+							<p>가격 : 70000</p>
+							<button class="btn btn-danger">주문하기</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<!-- 두 번째 카드 -->
+					<div class="card">
+						<img src="https://via.placeholder.com/600" />
+						<div class="card-body">
+							<h5>Card title</h5>
+							<p>가격 : 70000</p>
+							<button class="btn btn-danger">주문하기</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<!-- 세 번째 카드 -->
+					<div class="card">
+						<img src="https://via.placeholder.com/600" />
+						<div class="card-body">
+							<h5>Card title</h5>
+							<p>가격 : 70000</p>
+							<button class="btn btn-danger">주문하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			var products = [
+				{ id: 0, price: 70000, title: "Blossom Dress" },
+				{ id: 1, price: 50000, title: "Springfield Shirt" },
+				{ id: 2, price: 60000, title: "Black Monastery" },
+			];
+
+			let cardLength = $(".card-body").length;
+			for (let i = 0; i < cardLength; i++) {
+				addTitlePrice(i);
+			}
+
+			// 데이터바인딩 숙제 & 문자중간에 변수넣는 법
+			// 이번 강의에서는 이전 강의 숙제풀이하면서
+			// 제이쿼리로 코드를 좀 더 간결하게 변경함
+			function addTitlePrice(value) {
+				// document.querySelector(
+				// 	`.col-md-4:nth-child(${value + 1}) .card-body h5`
+				// ).innerHTML = products[value].title;
+				// document.querySelector(
+				// 	`.col-md-4:nth-child(${value + 1}) .card-body p`
+				// ).innerHTML = products[value].price;
+
+				$(".card-body h5").eq(value).html(products[value].title);
+				$(".card-body p").eq(value).html(`가격 : ${products[value].price}`);
+			}
+		</script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>

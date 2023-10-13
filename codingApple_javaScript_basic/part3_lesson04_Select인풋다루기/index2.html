@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Bootstrap demo</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+			integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+
+		<link rel="stylesheet" href="tabStyle.css" />
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<!-- 첫 번째 카드 -->
+					<div class="card">
+						<img src="https://via.placeholder.com/600" />
+						<div class="card-body">
+							<h5>Card title</h5>
+							<p>가격 : 70000</p>
+							<button class="btn btn-danger">주문하기</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<!-- 두 번째 카드 -->
+					<div class="card">
+						<img src="https://via.placeholder.com/600" />
+						<div class="card-body">
+							<h5>Card title</h5>
+							<p>가격 : 70000</p>
+							<button class="btn btn-danger">주문하기</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<!-- 세 번째 카드 -->
+					<div class="card">
+						<img src="https://via.placeholder.com/600" />
+						<div class="card-body">
+							<h5>Card title</h5>
+							<p>가격 : 70000</p>
+							<button class="btn btn-danger">주문하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- selection input -->
+		<form class="container my-5 form-group">
+			<p>상품선택</p>
+			<select class="form-select mt-2">
+				<option>모자</option>
+				<option>셔츠</option>
+			</select>
+			<div class="size-hat form-hide">
+				<p>셔츠 사이즈 선택</p>
+				<select class="form-select mt-2">
+					<option>95</option>
+					<option>100</option>
+					<option>105</option>
+					<option>110</option>
+				</select>
+			</div>
+		</form>
+
+		<div class="container mt-5">
+			<ul class="list">
+				<li class="tab-button" data-id="0">Products</li>
+				<li class="tab-button orange" data-id="1">Information</li>
+				<li class="tab-button" data-id="2">Shipping</li>
+			</ul>
+			<div class="tab-content">
+				<p>상품설명입니다. Product</p>
+			</div>
+			<div class="tab-content show">
+				<p>스펙설명입니다. Information</p>
+			</div>
+			<div class="tab-content">
+				<p>배송정보입니다. Shipping</p>
+			</div>
+		</div>
+		<script>
+			// tab control
+			$(".list").click(function (e) {
+				openTabs(e.target.dataset.id);
+			});
+
+			// tab control function
+			function openTabs(tabNumber) {
+				$(".tab-button").removeClass("orange");
+				$(".tab-button").eq(tabNumber).addClass("orange");
+				$(".tab-content").removeClass("show");
+				$(".tab-content").eq(tabNumber).addClass("show");
+			}
+
+			// product card control
+			var products = [
+				{ id: 0, price: 70000, title: "Blossom Dress" },
+				{ id: 1, price: 50000, title: "Springfield Shirt" },
+				{ id: 2, price: 60000, title: "Black Monastery" },
+			];
+
+			let cardLength = $(".card-body").length;
+			for (let i = 0; i < cardLength; i++) {
+				addTitlePrice(i);
+			}
+
+			function addTitlePrice(value) {
+				$(".card-body h5").eq(value).html(products[value].title);
+				$(".card-body p").eq(value).html(`가격 : ${products[value].price}`);
+			}
+
+			// select tag & 모자 사이즈 display 컨트롤
+			// select tag 는 input 태그와 똑같다보면 됨
+			let selectProduct = document.querySelectorAll(".form-select")[0];
+			selectProduct.addEventListener("input", function () {
+				if (selectProduct.value == "셔츠") {
+					document.querySelector(".size-hat").classList.remove("form-hide");
+				} else {
+					document.querySelector(".size-hat").classList.add("form-hide");
+				}
+			});
+		</script>
+
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>

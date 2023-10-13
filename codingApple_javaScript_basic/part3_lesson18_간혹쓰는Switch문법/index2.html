@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Bootstrap demo</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+			integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+
+		<link rel="stylesheet" href="tabStyle.css" />
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">Navbar</a>
+				<div class="nav-items">
+					<button id="cartButton">장바구니</button>
+					<form class="d-flex" role="search">
+						<input
+							class="form-control me-2 searchInput"
+							type="search"
+							placeholder="Search"
+							aria-label="Search"
+						/>
+						<button class="btn btn-outline-success" type="submit">
+							Search
+						</button>
+					</form>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+			<div class="row"></div>
+		</div>
+
+		<div class="moreProducts-area">
+			<button class="btn btn-danger moreProducts">상품 더보기</button>
+		</div>
+
+		<div class="filter-area">
+			<button class="btn btn-secondary sortProduct">싼가격순정렬</button>
+			<button class="btn btn-secondary sortNameBack">이름역순정렬</button>
+			<button class="btn btn-secondary sortNameForward">가나다순정렬</button>
+			<button class="btn btn-secondary filterPrice">
+				6000만원이하상품보기
+			</button>
+			<button class="btn btn-secondary refresh">처음으로돌아가기</button>
+		</div>
+
+		<!-- selection input -->
+		<form class="container my-5 form-group">
+			<p>상품선택</p>
+			<select class="form-select mt-2">
+				<option>모자</option>
+				<option>셔츠</option>
+				<option>바지</option>
+			</select>
+			<div class="select-size form-hide">
+				<p>사이즈 선택</p>
+				<select class="form-select mt-2"></select>
+			</div>
+		</form>
+
+		<!-- tab area -->
+		<div class="container mt-5">
+			<ul class="list">
+				<li class="tab-button" data-id="0">Products</li>
+				<li class="tab-button orange" data-id="1">Information</li>
+				<li class="tab-button" data-id="2">Shipping</li>
+			</ul>
+			<div class="tab-content">
+				<p>상품설명입니다. Product</p>
+			</div>
+			<div class="tab-content show">
+				<p>스펙설명입니다. Information</p>
+			</div>
+			<div class="tab-content">
+				<p>배송정보입니다. Shipping</p>
+			</div>
+		</div>
+	</body>
+	<script>
+		// 장바구니페이지로 이동하는 코드
+		document
+			.querySelector("#cartButton")
+			.addEventListener("click", function () {
+				window.location.href = "cart.html";
+			});
+
+		// tab control
+		$(".list").click(function (e) {
+			openTabs(e.target.dataset.id);
+		});
+
+		// tab control function
+		function openTabs(tabNumber) {
+			$(".tab-button").removeClass("orange");
+			$(".tab-button").eq(tabNumber).addClass("orange");
+			$(".tab-content").removeClass("show");
+			$(".tab-content").eq(tabNumber).addClass("show");
+		}
+
+		// product card control
+		let products = [
+			{ id: 0, price: 70000, title: "Blossom Dress" },
+			{ id: 1, price: 50000, title: "Springfield Shirt" },
+			{ id: 2, price: 60000, title: "Black Monastery" },
+		];
+		let copyProduct = [...products];
+
+		copyProduct.forEach((item, i) => {
+			makeTemplate(item);
+		});
+
+		// 반복문 forEach 와 배열을 이용한 size select html 생성하기
+		let pants = [28, 29, 30, 32, 34, 36];
+		let shirts = [95, 100, 105, 110];
+		$(".form-select")
+			.eq(0)
+			.on("input", function () {
+				var value = $(".form-select").eq(0).val();
+				if (value == "셔츠") {
+					$(".select-size").removeClass("form-hide");
+					$(".form-select").eq(1).html("");
+					shirts.forEach(function (a) {
+						$(".form-select").eq(1).append(`<option>${a}</option>`);
+					});
+				} else if (value == "바지") {
+					$(".select-size").removeClass("form-hide");
+					$(".form-select").eq(1).html("");
+					pants.forEach(function (a) {
+						$(".form-select").eq(1).append(`<option>${a}</option>`);
+					});
+				} else {
+					$(".select-size").addClass("form-hide");
+				}
+			});
+
+		// 상품더보기 버튼 컨트롤
+		let getDataCount = 1;
+		$(".moreProducts").click(function () {
+			getData();
+		});
+		function getData() {
+			if (getDataCount < 3) {
+				$.get(`https://codingapple1.github.io/js/more${getDataCount}.json`)
+					.done(function (data) {
+						// console.log(data);
+						copyProduct = [...copyProduct, ...data];
+						// console.log(products);
+						data.forEach((item, i) => {
+							makeTemplate(item);
+						});
+						// console.log(products);
+					})
+					.fail(function (error) {
+						console.log("실패함");
+					});
+				getDataCount++;
+
+				if (getDataCount == 3) {
+					$(".moreProducts-area").hide();
+				}
+			}
+		}
+
+		// 상품카드 템플릿 함수
+		function makeTemplate(data) {
+			let template = `
+                <div class="col-md-4">
+                  <div class="card">
+                    <img src="https://via.placeholder.com/600" class="w-100">
+                    <div class="card-body">
+                      <h5 class="title">${data.title}</h5>
+                      <p>가격 : ${data.price}</p>
+                      <button class="btn btn-danger" onclick="addCart('${data.title}')">구매하기</button>
+                    </div>
+                  </div>
+                </div>
+                `;
+			$(".row").append(template);
+		}
+
+		// 아래 코드는 내가 맨처음에 짠 코드인데 잘 안되서~
+		// 강사 코드는 좀 더 쉽고 간단하기 때문에
+		// 이번 강의는 강사의 코드를 가져다 써보자.
+
+		// 상품구매버튼 컨트롤
+		// 상품구매버튼을 누르면 로컬스토리지에 저장하기
+		// 단, 로컬스토리지에 해당 상품데이터가 있다면 저장안해도 됨(중복있는지 검사하기)
+		// 없다면 저장하기
+		// let shoppingList = [];
+		// localStorage.removeItem("장바구니");
+		// function buy(e) {
+		// 	const tgt = e.target;
+		// 	if (tgt.tagName === "BUTTON") {
+		// 		let productTitle = tgt
+		// 			.closest("div")
+		// 			.querySelector("h5.title").textContent;
+
+		// 		// 현재 보여지는 상품리스트에서 구매하기 클릭하면 필터링하고 저장하기
+		// 		let selectProduct = copyProduct.find((item) => {
+		// 			return item.title == productTitle;
+		// 		});
+
+		// 		if (shoppingList.length == 0) {
+		// 			saveProductData(selectProduct);
+		// 		} else if (
+		// 			// 상품명을 비교해서 같으면 저장안하고 다르면 저장하기
+		// 			!shoppingList.some((item) => item.title === selectProduct.title)
+		// 		) {
+		// 			saveProductData(selectProduct);
+		// 		}
+		// 	}
+		// }
+
+		// 로컬스토리지로 필터링된 상품데이터를 저장하는 함수
+		// function saveProductData(product) {
+		// 	shoppingList.push(product);
+		// 	let stringifyShoppingList = JSON.stringify(shoppingList);
+		// 	localStorage.setItem("장바구니", stringifyShoppingList);
+		// 	let getShoppingList = localStorage.getItem("장바구니");
+		// 	let parseData = JSON.parse(getShoppingList);
+		// }
+
+		// 여기부터 강사의 코드
+		// $("body").on("click", ".buy", function (e) {
+		// 	console.log("호출댐");
+		// 	// $(e.target).siblings('h5').text();
+		// 	// 또는
+		// 	let title = $(e.target).siblings("h5").html();
+		// 	if (localStorage.cart != null) {
+		// 		let getCart = JSON.parse(localStorage.cart);
+		// 		getCart.push(title);
+		// 		localStorage.setItem("cart", JSON.stringify(getCart));
+		// 	} else {
+		// 		localStorage.setItem("cart", JSON.stringify([title]));
+		// 	}
+		// });
+
+		// 코딩애플 강사가 다시한번 처음부터 해봐야 공부가 되는거라고 해서
+		// 다시한번 작성해보기
+		// 이번에는 자바스크립트로 해볼꺼임.
+		// 제이쿼리로 해봤더니 4번째 구매버튼부터 이벤트리스너가 달리지 않아서
+		// 찾아봤더니
+		// $('body').on('click', '.buy', function(){}) 와 같이 이벤트를 달아야하더라.
+		// 그래서 귀찬아서 button 태그에 onclick 을 달아서 addCart() 함수로 작성했다.
+
+		function addCart(title) {
+			if (localStorage.getItem("cart") != null) {
+				let getCartArray = localStorage.getItem("cart");
+				getCartArray = JSON.parse(getCartArray);
+				if (!getCartArray.some((item) => item.title == title)) {
+					// console.log("없는 상품임");
+					// 없는 상품의 경우 저장하는 코드
+					let product = copyProduct.find((item) => {
+						return item.title == title;
+					});
+					getCartArray.push(product);
+					localStorage.setItem("cart", JSON.stringify(getCartArray));
+					getCartArray = localStorage.getItem("cart");
+					getCartArray = JSON.parse(getCartArray);
+				} else {
+					// 이미 저장된 상품의 경우를 찾는 조건이라 아무거도 안할꺼임
+					console.log("이미저장된 상품임");
+				}
+			} else {
+				let product = copyProduct.find((item) => {
+					return item.title == title;
+				});
+				localStorage.setItem("cart", JSON.stringify([product]));
+			}
+		}
+
+		// 너무 많이 사용되는 반복문
+		function arrayForEach() {
+			$(".row").html("");
+			copyProduct.forEach((item, i) => {
+				makeTemplate(item);
+			});
+		}
+
+		// sort()함수 사용법
+		// 기본적으로 문자열로 인식하고 정렬을 한다.
+		// 규칙 2: return a - b 에서 양수면 즉 a가 더 큰 숫자면 a를 오른쪽으로 정렬해줍니다.
+		// 규칙 3: return a - b 에서 음수면 즉 b가 더 큰 숫자면 b를 오른쪽으로 정렬해줍니다.
+		let array2 = [3, 7, 40, 9, 5];
+		array2.sort();
+		// console.log(array2);
+		// [3, 40, 5, 7, 9]
+		// 그래서 array2의 경우 array2.sort(); 하면 결과는 [3, 40, 5, 7, 9] 가 나온다.
+
+		// 그래서 sort()안에 함수로 정의를 해줘야 한다.
+		array2.sort((a, b) => {
+			return a - b;
+		});
+		// console.log(array2);
+		// [3, 5, 7, 9, 40]
+
+		// 문자 정렬해보기
+		let array1 = ["b", "a", "f", "d", "c"];
+		// console.log("array1[0] > array1[1] :", array1[0] > array1[1]);
+
+		array1.sort(function (a, b) {
+			return a > b ? -1 : 1;
+		});
+		// console.log(array1);
+		//  ['f', 'd', 'c', 'b', 'a']
+
+		// MDN 에서 퍼온 좋은 사용 예시들
+
+		// sort()함수는 원본 배열을 변경시키므로 얕은 복사를 하고 사용하는게 좋다는 예시 코드임
+		const numbers = [3, 1, 4, 1, 5];
+		// [...numbers] creates a shallow copy, so sort() does not mutate the original
+		const sorted = [...numbers].sort((a, b) => a - b);
+		sorted[0] = 10;
+		// console.log(numbers[0]);
+		// 3
+		// console.log(sorted[0]);
+		// 10
+
+		const objectSortFromMdn = [
+			{ name: "Edward", value: 21 },
+			{ name: "Sharpe", value: 37 },
+			{ name: "And", value: 45 },
+			{ name: "The", value: -12 },
+			{ name: "Magnetic", value: 13 },
+			{ name: "Zeros", value: 37 },
+		];
+
+		// sort by value
+		objectSortFromMdn.sort((a, b) => a.value - b.value);
+		// console.log(objectSortFromMdn);
+		//(6) [{…}, {…}, {…}, {…}, {…}, {…}]
+		//0: {name: 'The', value: -12}
+		//1: {name: 'Magnetic', value: 13}
+		//2: {name: 'Edward', value: 21}
+		//3: {name: 'Sharpe', value: 37}
+		//4: {name: 'Zeros', value: 37}
+		//5: {name: 'And', value: 45}
+		//length: 6
+
+		// filter() 함수 사용법
+		// 새로운 배열을 리턴함
+		let array5 = [3, 7, 40, 9, 5];
+		let newArr = array5.filter(function (a) {
+			return a > 4;
+			// return 조건식
+		});
+		// console.log(newArr);
+		// [7, 40, 9, 5]
+
+		const words = [
+			"spray",
+			"limit",
+			"elite",
+			"exuberant",
+			"destruction",
+			"present",
+		];
+
+		const inventory = [
+			{ name: "apples", quantity: 2 },
+			{ name: "bananas", quantity: 0 },
+			{ name: "cherries", quantity: 5 },
+		];
+
+		const findResult = inventory.find(({ name }) => name === "cherries");
+		// console.log(findResult); // { name: 'cherries', quantity: 5 }
+		const filterResult = inventory.filter(({ name }) => name === "cherries");
+		// console.log(filterResult); // [{ name: 'cherries', quantity: 5 }]
+
+		// map() 함수 사용법
+		// array 자료를 똑같이 변형하고 싶을때 씀
+		let array10 = [3, 7, 40, 9, 5];
+		let arrayTen = array10.map((a) => {
+			return a * 10;
+		});
+
+		// console.log(array10);
+		// console.log(arrayTen);
+
+		// some() 함수 사용법
+
+		// 화살표 함수를 사용한 배열의 요소 테스트
+		// [2, 5, 8, 1, 4].some((x) => x > 10); // false
+		// [12, 5, 8, 1, 4].some((x) => x > 10); // true
+
+		// 값이 배열 내 존재하는지 확인
+		const fruits = ["apple", "banana", "mango", "guava"];
+		function checkAvailability(arr, val) {
+			return arr.some((arrVal) => val === arrVal);
+		}
+		checkAvailability(fruits, "kela"); // false
+		checkAvailability(fruits, "banana"); // true
+
+		// 오늘의 숙제 :
+		// 1: 가격순으로 상품들을 정렬하는 버튼을 만들라
+		// 2: 상품명을 역순으로 정렬하기 버튼을 만들라
+		// 3: 6만원 이하 상품만 보여주기 버튼을 만들라
+
+		// 아래하단은 내가 스스로 작성한 숙제코드 (존나 뿌듯해하는중...)
+
+		// 싼가격순정렬 버튼 이벤트리스너
+		$(".sortProduct").click(function () {
+			copyProduct.sort((a, b) => a.price - b.price);
+			arrayForEach();
+		});
+
+		// 상품이름을 역순으로 정렬버튼 이벤트리스너
+		$(".sortNameBack").click(function () {
+			copyProduct.sort((a, b) => (a.title > b.title ? -1 : 1));
+			arrayForEach();
+		});
+
+		// 상품이름을 가나다순으로 정렬버튼 이벤트리스너
+		$(".sortNameForward").click(function () {
+			copyProduct.sort((a, b) => (a.title < b.title ? -1 : 1));
+			arrayForEach();
+		});
+
+		// 6만원 이하 상품만 보여주기 버튼 이벤트리스너
+		$(".filterPrice").click(function () {
+			copyProduct = products.filter((item) => {
+				return item.price < 60000;
+			});
+			arrayForEach();
+		});
+
+		// 처음화면 보여주기 refresh 버튼 이벤트리스너
+		$(".refresh").click(function () {
+			getDataCount = 1;
+			copyProduct = products;
+			arrayForEach();
+			$(".moreProducts-area").show();
+		});
+
+		// 검색인풋컨트롤
+		let searchValue;
+		$(".searchInput").on("keydown", function (e) {
+			if (e.keyCode == 13) {
+				searchValue = $(".searchInput").val();
+				let result2 = searchProducts(searchValue);
+				if (result2.length == 0) {
+					copyProduct = products;
+					arrayForEach();
+					$(".moreProducts-area").show();
+					alert("검색어를 다시 입력해주세요.");
+				} else {
+					copyProduct = result2;
+					arrayForEach();
+					e.preventDefault();
+					$(".searchInput").val("");
+				}
+			}
+		});
+
+		// 검색버튼 컨트롤
+		$(".btn-outline-success").click(function (e) {
+			e.preventDefault();
+			searchValue = $(".searchInput").val();
+			let result2 = searchProducts(searchValue);
+			if (result2.length == 0) {
+				copyProduct = products;
+				arrayForEach();
+				$(".moreProducts-area").show();
+				alert("검색어를 다시 입력해주세요.");
+			} else {
+				copyProduct = result2;
+				arrayForEach();
+				$(".searchInput").val("");
+			}
+		});
+
+		// 검색어를 찾아주는 함수
+		function searchProducts(query) {
+			let result1 = copyProduct.filter((item) => {
+				return (
+					item.title.toLowerCase().includes(query.toLowerCase()) ||
+					item.price == query
+				);
+			});
+			return result1;
+		}
+
+		// localStorage 사용법
+
+		// 저장할땐
+		// localStorage.setItem("이름", "kim");
+
+		// 가져오거나 읽을땐
+		// localStorage.getItem("이름")
+
+		// 삭제할땐
+		// localStorage.removeItem("이름");
+
+		// localStorage에는 객체나 배열을 일반적으로 저장할 수 없는데
+		// 그 이유는 배열을 그대로 저장하게 되면 []이 사라지고 문자열데이터로 '1','2','3'~ 이런식으로 저장된다.
+		// 즉 데이터가 손상된다.
+		// 그래서 배열을 그대로 사용하지 않고
+		// 약간의 편법을 사용해서 저장할 수 있다.
+
+		// JSON.stringify(arr); 이 코드는 arr 배열을 문자열로 바꿔준다. 배열 => 문자열로 변환한 다음에
+		// 이걸 꺼내다 쓸때 배열로 바꿔주면 되는거다.
+		let arr = [1, 2, 3, 4];
+		let newArray = JSON.stringify(arr);
+
+		localStorage.setItem("배열", newArray);
+		let getArrData = localStorage.getItem("배열");
+		// console.log(getArrData);
+
+		let parseData = JSON.parse(getArrData);
+		// console.log(parseData);
+
+		// 숙제 1
+		// 구매버튼을 누르면 로컬스토리지에 해당상품의 이름을 저장해놓기~
+		// 팁1 : 구매버튼을 누르면 형제요소인 sibling을 이용해서 상품명을 저장하면 편할듯
+		// 팁2 : cart라는 이름으로 한곳에 데이터를 배열로 저장해놓으면 나중에 알아보기 편함
+		// 팁3 : 구매버튼을 누를 때 cart 항목이 없으면 array '추가'해야함(localStorage가 비었을때)
+		// 팁4 : 구매버튼을 누를 때 cart 항목이 있으면 array '수정'해야함
+
+		// 로컬스토리지에 데이터를 수정할때는
+		// 1 데이터를 꺼내야함
+		// 2 데이터를 수정하는 코드를 작성함
+		// 3 데이터를 저장함
+
+		// 숙제 2
+		// cart.html 같은 파일 하나 만들어서 (장바구니 페이지)
+		// 그 페이지 방문시 localStorage에 있던 상품명들을 꺼내서 전부 진열해서 보여주면 됩니다.
+		// 디자인 신경쓸 필요없이 상품명들만 전부 잘 보이면 성공입니다.
+
+		// 여기부터 강사의 로컬스토리지 저장 및 가져오기 코드임
+
+		// 1.구매버튼을 누르면
+		// 2.지금 누른버튼 윗윗 글자를 가져와서
+		// 3 localStorage 에 [글자] 저장
+
+		// 참고로 쌩자바스크립트 코드에는
+		// document.querySelectorAll('.buy').addEventListener
+		// querySelectorAll 해줘도
+		// 와 같이 코드를 작성하면 document.querySelectorAll('.buy')[0]
+		// 와 같이 첫번째 요소만 가져오기때문에
+		// 원하는 것처럼 모든 buy 클래스에 클릭이벤트리스너를 달아줄 수 없다.
+		// 일일이 하나하나 클릭이벤트 리스너를 달아줘야 한다.(단점)
+		// 하지만 <button class="btn btn-danger buy" onclick="buy()">구매하기</button>
+		// 와 같이 하게 되면 하나씩 달리긴 했었다.
+		// 그러나 제이쿼리를 사용하면 간단하게 모두 달아줄 수 있다.(권장)
+	</script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+		crossorigin="anonymous"
+	></script>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Bootstrap demo</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+			integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="black-bg">
+			<div class="white-bg">
+				<h4>로그인하세요</h4>
+				<form action="success.html">
+					<div class="my-3">
+						<label for="">user ID</label>
+						<input type="text" class="form-control user-id-form-control" />
+					</div>
+					<div class="my-3">
+						<label for="">password</label>
+						<input
+							type="password"
+							class="form-control user-password-form-control"
+						/>
+					</div>
+					<button type="submit" class="btn btn-primary">전송</button>
+					<button type="button" class="btn btn-danger" id="close">닫기</button>
+				</form>
+			</div>
+		</div>
+
+		<nav class="navbar navbar-light bg-light">
+			<div class="container-fluid">
+				<span class="navbar-brand">JS Shop</span>
+				<span class="badge bg-dark ms-auto mx-3">Dark 🔄</span>
+				<button class="navbar-toggler" type="button">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+
+		<ul class="list-group">
+			<li class="list-group-item">An item</li>
+			<li class="list-group-item">A second item</li>
+			<li class="list-group-item">A third item</li>
+			<li class="list-group-item">A fourth item</li>
+			<li class="list-group-item">And a fifth one</li>
+		</ul>
+		<button class="login-btn">로그인</button>
+		<div class="alert alert-danger">
+			<span id="alert-time">5</span>
+			초 이내 구매시 사은품 증정
+		</div>
+
+		<script>
+			// lesson 12
+			// 다크모드 기능 구현하기
+			let count = 0;
+
+			$(".badge").on("click", function () {
+				count++;
+				if (count % 2 == 0) {
+					console.log("짝수입니다.");
+				} else {
+					console.log("홀수입니다.");
+				}
+			});
+
+			// 네비게이션바 버튼 클릭하면 리스트목록 모달창 보이고 감추는 기능 작성
+			document
+				.querySelector(".navbar-toggler")
+				.addEventListener("click", function () {
+					document.querySelector(".list-group").classList.toggle("show");
+				});
+
+			//  로그인 버튼 클릭하면 모달창 보이고 감추는 기능작성
+			$(".login-btn").on("click", function () {
+				$(".black-bg").toggleClass("show");
+			});
+
+			$(".btn").on("click", function () {
+				$(".black-bg").toggleClass("show");
+			});
+
+			// input 의 값이 바뀔때 마다 무언가를 실행하고 싶다면
+			// 이벤트리스너에 input 을 넣으면 됨.
+
+			// document.querySelector('.user-id-form-control').addEventListener('input',function(){
+			//   console.log("인풋의 값이 바뀔때 마다 실행됨");
+			// });
+
+			$(".btn-primary").on("click", function () {
+				// input 요소의 값을 가져옵니다.
+				let userIdInputValue = $(".user-id-form-control").val();
+				let usePasswordInputValue = $(".user-password-form-control").val();
+				let usePasswordInputValueLength = $(".user-password-form-control").val()
+					.length;
+				if (userIdInputValue == "") {
+					alert("사용자  ID 가 입력되지 않았습니다.");
+					event.preventDefault();
+					$(".black-bg").addClass("show");
+				} else if (usePasswordInputValue == "") {
+					event.preventDefault();
+					alert("사용자  password 가 입력되지 않았습니다.");
+					$(".black-bg").addClass("show");
+				} else if (usePasswordInputValueLength < 6) {
+					event.preventDefault();
+					alert("비밀번호는 6자 이상이어야 합니다.");
+					$(".black-bg").addClass("show");
+				} else {
+					alert("전송완료");
+					window.location.href = "success.html";
+				}
+			});
+
+			// 2장 2 ??초 후에 구매하기 사라지게 하기 구현하기
+			// setInterval(함수, 1000);
+			// setInterval(() => {
+			// 	console.log("방가워~~");
+			// }, 1000);
+
+			let saleProductTime = 5;
+			function reduceSecond() {
+				setInterval(() => {
+					saleProductTime--;
+					$("#alert-time").html(saleProductTime);
+					if (saleProductTime == 0) {
+						$(".alert-danger").hide();
+					}
+				}, 1000);
+			}
+			setTimeout(reduceSecond, 1000);
+		</script>
+
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>

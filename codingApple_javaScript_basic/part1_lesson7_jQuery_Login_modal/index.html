@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Bootstrap demo</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+			integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="black-bg">
+			<div class="white-bg">
+				<h4>로그인하세요</h4>
+				<button class="btn btn-danger" id="close">닫기</button>
+			</div>
+		</div>
+
+		<nav class="navbar navbar-light bg-light">
+			<div class="container-fluid">
+				<span class="navbar-brand">Navbar</span>
+				<button class="navbar-toggler" type="button">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+
+		<ul class="list-group">
+			<li class="list-group-item">An item</li>
+			<li class="list-group-item">A second item</li>
+			<li class="list-group-item">A third item</li>
+			<li class="list-group-item">A fourth item</li>
+			<li class="list-group-item">And a fifth one</li>
+		</ul>
+		<button class="login-btn">로그인</button>
+
+		<!-- <p class="hello">안녕</p> -->
+
+		<script>
+			document
+				.querySelector(".navbar-toggler")
+				.addEventListener("click", function () {
+					document.querySelector(".list-group").classList.toggle("show");
+				});
+
+			// $(".hello").html("바보");
+			// $(".hello").css("color", "red");
+			// $('.hello').addClass('클래스명');
+			// $('.hello').removeClass('클래스명');
+
+			// $('.hello').toggleClass('클래스명');
+			//     $('.test-btn').on('click', function(){
+			//   어쩌구~
+			// });
+
+			// .hide() 는 사라지게
+			// .fadeOut() 은 서서히 사라지게
+			// .slideUp() 은 줄어들며 사라지게 만들어줍니다.
+			// fadeToggle()
+
+			// 로그인버튼을 누르면 알림창이 뜨고
+			// 닫기버튼을 누르면 알림창이 닫힘.
+			$(".login-btn").on("click", function () {
+				$(".black-bg").toggleClass("show");
+			});
+
+			$(".btn").on("click", function () {
+				$(".black-bg").toggleClass("show");
+			});
+		</script>
+
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>
