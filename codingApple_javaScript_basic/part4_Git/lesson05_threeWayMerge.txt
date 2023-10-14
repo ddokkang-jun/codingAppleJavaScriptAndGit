@@ -68,14 +68,9 @@ rebase는 브랜치의 시작점을 다른 commit으로 옮겨주는 행위입�
 그러고 싶으면 일반 3-way merge 대신 rebase & merge 해도 됩니다.
 
  
-
  
-
  
-
- 
-
-그래서 실제로 rebase and merge 하고 싶으면 
+- 그래서 실제로 rebase and merge 하고 싶으면 
 
 1. 새로운 브랜치로 먼저 이동해서
 2. git rebase main 하면 됩니다. 
@@ -119,13 +114,9 @@ squash and merge 하는 경우도 있음
 
  
 rebase는 아까 배웠고
-
 squash and merge 이거 하면 어떻게 되냐면
-
 3-way merge처럼 선으로 이어주지 않고
-
 새 브랜치에 있던 코드변경사항들이 main 브랜치로 텔레포트합니다. 
-
  
  
 
@@ -135,7 +126,10 @@ merge 완료된 브랜치의 commit 같은 것들은 출력되지 않습니다.
 그게 왜 좋은거냐고요? 
 이런건 님들이 직접 해봐야 체감이 되는 것이기 때문에 3-way merge 많이 해보든가 하십시오. 
 
- 
+
+
+
+- merge --squash 하는법
 
 git switch main
 
