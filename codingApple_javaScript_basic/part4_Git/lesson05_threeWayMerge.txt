@@ -168,4 +168,182 @@ squash and merge 하는 법은 그냥 --squash 옵션을 추가하면 끝입니�
 
 2. 브랜치 새로 하나 만들어서 commit 몇번 한 다음 main 브랜치로 rebase and merge 해보십시오. 
 
-3. 잘 합쳐져서 이제 쓸모없어진 브랜치는 제거해봅시다. 
+
+
+다양한 merge 방법 (3-way, fast-forward, squash, rebase)
+
+- 3-way merge  
+
+저번시간에 했던 것 처럼 
+브랜치에 각각 신규 commit이 1회 이상 있는 경우 
+merge 명령을 내리면 두 브랜치의 코드를 합쳐서 새로운 commit을 자동으로 생성해주는데
+이걸 3-way merge 라고 부릅니다.
+이게 merge의 기본 동작방식입니다. 
+
+
+- fast-forward merge
+ 
+
+가끔은 새로운 브랜치에만 commit 이 있고
+기준이 되는 브랜치에는 신규 commit 이 없는 경우가 있습니다.
+
+
+
+이 경우 merge 하게 되면 "fast-forward merge 되었습니다" 라고 알려줍니다.
+fast-forward merge가 뭐냐면 
+딱히 합칠게 없어서 그냥 신규브랜치 보고
+"지금부터 니 이름은 main 브랜치여" 하는 것입니다. 
+그래도 결과는 어짜피 같지 않을까요. 
+
+
+그래서 "기준이 되는 브랜치에 신규 commit이 없으면" 자동으로 fast-forward merge가 발동됩니다. 
+진짜 그런지 궁금하면 직접 테스트해봅시다. 
+물론 싫으면 git merge --no-ff 브랜치명 해서 강제로 3-way merge 할 수도 있습니다. 
+
+
+
+- 브랜치를 삭제하려면
+
+3-way,  fast-forward 아무렇게나 merge 해도
+브랜치를 merge 하고 나면 브랜치가 자동으로 삭제되진 않습니다.
+
+
+git branch -d 브랜치이름
+git branch -D 브랜치이름
+둘 중 하나 사용하면 이제 필요없는 브랜치를 삭제할 수 있습니다. 
+
+병합이 완료된 브랜치 삭제시엔 -d 이것만 해도 되는데
+병합하지 않은 브랜치 삭제시엔 -D 이거 해야함 
+심심하면 저번에 만든 coupon 브랜치 삭제하고 어떻게 보이는지 확인해봅시다.
+
+
+- rebase and merge 
+
+
+브랜치를 rebase 하고 나서 merge 하는 짓거리도 가능합니다. 
+일단 rebase가 뭐냐면 
+
+ 
+
+rebase는 브랜치의 시작점을 다른 commit으로 옮겨주는 행위입니다. 
+1. rebase를 이용해서 신규브랜치의 시작점을 main 브랜치 최근 commit으로 옮긴 다음 
+2. fast-forward merge하는 것입니다. 
+이런 식으로도 브랜치 합치기가 가능하겠군요. 
+
+ 
+왜 이따구로 하냐고요?
+
+1. 3-way merge 말고 강제로 fast-forward 하고 싶을 때 
+2. 브랜치 그딴거 필요없이도 코드 잘짜는 고수같은 느낌을 주고 싶을 때
+그러고 싶으면 일반 3-way merge 대신 rebase & merge 해도 됩니다.
+
+ 
+
+ 
+
+ 
+
+ 
+
+그래서 실제로 rebase and merge 하고 싶으면 
+
+1. 새로운 브랜치로 먼저 이동해서
+2. git rebase main 하면 됩니다. 
+3. 그럼 브랜치가 main 브랜치 끝으로 이동하는데 그걸 fast-forward merge 하면 됩니다. 
+ 
+ 
+git switch 새로운브랜치
+git rebase main
+
+git switch main
+git merge 새로운브랜치
+차례로 입력하면 rebase 끝입니다. 
+
+rebase & merge를 한 줄로 쉽게 비유하자면 강제 fast-forward merge입니다. 
+
+
+직접 새로운 브랜치 만들고 commit 몇 번 하고 rebase 해보십시오.  
+당연히 main 말고 다른 브랜치끼리도 가능합니다. 
+
+ 
+물론 단점도 있는데 
+브랜치끼리 차이가 너무 많은 경우 rebase하면 충돌이 많이 발생할 수 있는데 그거 하나하나 해결하기 귀찮습니다. 
+
+ 
+
+squash and merge 하는 경우도 있음
+
+님들 대충 모든 브랜치를 3-way merge 해버리면 나중에 참사가 일어날 수 있습니다. 
+ 
+
+
+왜냐면 
+(1) 3-way merge 된 것들은 매우 복잡해보임 
+(2) main 브랜치 git log 출력해보면 3-way merge된 브랜치들의 commit 내역도 다 같이 출력되어서 더러워짐 
+이런 현상이 있습니다. 
+ 
+
+그러기 싫으면 rebase 아니면 squash and merge 하면 됩니다. 
+그거 쓰면 새로운 브랜치에 있던 commit 들을 연결해주는게 아니라 똑 떼와서 main 브랜치에 붙여주기 때문에
+1번과 2번걱정을 안해도 됩니다. 
+
+ 
+
+ 
+
+rebase는 아까 배웠고
+
+squash and merge 이거 하면 어떻게 되냐면
+
+3-way merge처럼 선으로 이어주지 않고
+
+새 브랜치에 있던 코드변경사항들이 main 브랜치로 텔레포트합니다. 
+
+ 
+ 
+
+그럼 이제 main 브랜치의 git log 출력해볼 때
+merge 완료된 브랜치의 commit 같은 것들은 출력되지 않습니다. 
+그게 왜 좋은거냐고요? 
+이런건 님들이 직접 해봐야 체감이 되는 것이기 때문에 3-way merge 많이 해보든가 하십시오. 
+
+ 
+
+git switch main
+
+git merge --squash 브랜치명
+
+git commit -m '메세지'
+
+squash and merge 하는 법은 그냥 --squash 옵션을 추가하면 끝입니다. 
+님들이 브랜치에서 만들어놨던 많은 commit 을 다 합쳐서
+하나의 commit으로 main 브랜치에 생성해줍니다.
+결과는 둘 다 똑같은데 한 놈은 선으로 이어져있고 한 놈은 텔레포트했을 뿐입니다. 
+
+
+
+
+결론은 :
+
+브랜치 100개 만들어놨는데 일반 merge를 잔뜩 해놓으면 나중에 git log 그래프가 매우 복잡해질 수 있습니다.
+
+그게 싫으면 squash 해보십시오. 또는 rebase 해도 마찬가지로 해결가능합니다. 
+
+ 
+
+- 어떻게 merge 할 지 판단하기 힘들어요
+
+초보땐 squash 할지 말지 고민하지 말고 대충하십시오.
+나중에 코딩노예로 취직하면 중요한 브랜치마다 merge 방법 가이드라인이 있습니다. 
+
+
+그런거 없으면 퇴사 ㄱ
+아니면 하나 만들어두면 좋습니다. 
+
+
+오늘의 숙제 :
+
+1. 브랜치 새로 하나 만들어서 commit 몇번 한 다음 main 브랜치에 squash and merge 해보십시오.
+
+2. 브랜치 새로 하나 만들어서 commit 몇번 한 다음 main 브랜치로 rebase and merge 해보십시오. 
+
