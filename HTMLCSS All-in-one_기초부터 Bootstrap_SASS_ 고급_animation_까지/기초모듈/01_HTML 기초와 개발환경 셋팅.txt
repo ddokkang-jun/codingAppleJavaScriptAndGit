@@ -4,9 +4,7 @@ Brackets 에디터 : https://brackets.io/
 
 Visual Studio code 에디터 : https://code.visualstudio.com/
 
- 
 
- 
 
 (참고1) 에디터 상단 메뉴에서 '폴더열기'로 먼저 여러분의 작업폴더를 오픈하신 후 파일을 만들든지 코딩을 하든지 하셔야합니다. 
 
@@ -21,7 +19,6 @@ A. 번개버튼 다시 껐다 켜보시거나 파일 저장 잘하십시오
 
 
 
- 
 
 HTML은 어디다 쓰는 언어?
 
@@ -42,7 +39,6 @@ HTML은 Hypertext Markup Language의 약자인데 Markup Language에 주목해�
 
 아무튼 여러분이 HTML 언어로 글넣고 그림넣고 하면 웹페이지가 되는 것입니다.
 
- 
 
 HTML 파일 기본 템플릿
 
