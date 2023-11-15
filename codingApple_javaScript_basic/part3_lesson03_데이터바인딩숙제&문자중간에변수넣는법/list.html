@@ -70,16 +70,7 @@
 			}
 
 			// 데이터바인딩 숙제 & 문자중간에 변수넣는 법
-			// 이번 강의에서는 이전 강의 숙제풀이하면서
-			// 제이쿼리로 코드를 좀 더 간결하게 변경함
 			function addTitlePrice(value) {
-				// document.querySelector(
-				// 	`.col-md-4:nth-child(${value + 1}) .card-body h5`
-				// ).innerHTML = products[value].title;
-				// document.querySelector(
-				// 	`.col-md-4:nth-child(${value + 1}) .card-body p`
-				// ).innerHTML = products[value].price;
-
 				$(".card-body h5").eq(value).html(products[value].title);
 				$(".card-body p").eq(value).html(`가격 : ${products[value].price}`);
 			}

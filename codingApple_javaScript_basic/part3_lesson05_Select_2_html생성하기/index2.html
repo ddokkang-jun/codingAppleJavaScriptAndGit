@@ -120,22 +120,6 @@
 				$(".card-body p").eq(value).html(`가격 : ${products[value].price}`);
 			}
 
-			// select tag & 모자 사이즈 display 컨트롤
-			// select tag 는 input 태그와 똑같다보면 됨
-
-			// html 생성하는 법 1
-			// <div> 안에 <p> 태그를 생성하려면
-			// var a = document.createElement('p');
-			// a.innerHTML = '안녕';
-			// document.querySelector('#test').appendChild(a);
-
-			// html 생성하는 법 2
-			// var a = '<p>안녕</p>';
-			// document.querySelector('#test').insertAdjacentHTML('beforeend', a);
-			// 제이쿼리로 코드를 간단히 줄일 수 있다.
-			// $('#test').append(a);
-			// $('#test').html(a);
-
 			let selectProduct = document.querySelectorAll(".form-select")[0];
 			selectProduct.addEventListener("input", function () {
 				if (selectProduct.value == "셔츠") {
@@ -154,22 +138,6 @@
 					document.querySelector(".select-size").classList.add("form-hide");
 				}
 			});
-
-			// 제이쿼리로 줄여본 코드
-			// $(".form-select")
-			// 	.eq(0)
-			// 	.on("input", function () {
-			// 		var value = this.value;
-
-			// 		if (value == "셔츠") {
-			// 			$(".form-select").eq(1).removeClass("form-hide");
-			// 		} else if (value == "바지") {
-			// 			$(".form-select").eq(1).removeClass("form-hide");
-			// 			var text =
-			// 				"<option>27</option><option>28</option><option>29</option><option>30</option><option>32</option><option>34</option><option>36</option>";
-			// 			$(".form-select").eq(1).append(text);
-			// 		}
-			// 	});
 		</script>
 
 		<script
